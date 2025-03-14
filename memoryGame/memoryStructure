@@ -1,0 +1,27 @@
+class CardMemory:
+    def __init__(self):
+        self.cards = {}  # Dictionary to store card details
+
+    def store_card(self, position, color):
+        self.cards[position] = {"color": color, "matched": False}
+
+    def check_match(self, color):
+        for position, details in self.cards.items():
+            if details["color"] == color and not details["matched"]:
+                return position
+        return None
+
+    def mark_as_matched(self, pos1, pos2):
+        if pos1 in self.cards and pos2 in self.cards:
+            self.cards[pos1]["matched"] = True
+            self.cards[pos2]["matched"] = True
+# Example Usage (for testing memory, not game logic)
+# memory = CardMemory()
+# memory.store_card((0, 1), "red")
+# memory.store_card((1, 2), "blue")
+
+# Checking for match
+# match_pos = memory.check_match("red")
+# if match_pos:
+#     memory.mark_as_matched(match_pos, (0, 1))
+
