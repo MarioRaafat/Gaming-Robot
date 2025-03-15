@@ -3,17 +3,18 @@ import numpy as np
 import urllib.request
 
 # Change this URL to match your phone's camera stream (IP Webcam)
-PHONE_CAMERA_URL = "http://192.168.46.90:8080/shot.jpg"
+PHONE_CAMERA_URL = "http://192.168.1.14:8080/shot.jpg"
 
 # Define color ranges in HSV (Adjust based on your lighting conditions)
 COLOR_RANGES = {
-   "Red": [(0, 100, 100), (10, 255, 255)],
-    "Orange": [(10, 100, 100), (25, 255, 255)],  
+    "Red": [(0, 100, 100), (10, 255, 255)],
+    "Orange": [(10, 100, 100), (25, 255, 255)],
     "Yellow": [(20, 100, 100), (40, 255, 255)],
     "Green": [(40, 40, 40), (80, 255, 255)],
     "Blue": [(90, 50, 50), (130, 255, 255)],
-    "Black": [(0, 0, 0), (180, 255, 30)]
+    "Black": [(0, 0, 0), (180, 255, 30)],
 }
+
 
 def get_frame():
     """Fetches a single frame from the phone camera stream."""
@@ -31,6 +32,7 @@ def get_frame():
         print(f"Error: {e}")
         return None
 
+
 def detect_color():
     """Detects the color in the center region of the frame."""
     frame = get_frame()
@@ -40,7 +42,7 @@ def detect_color():
     # Convert frame to HSV
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-        # Get frame dimensions
+    # Get frame dimensions
     h, w, _ = frame.shape
     cx, cy = w // 2, h // 2  # Ensure exact center
 
@@ -66,6 +68,7 @@ def detect_color():
             break
 
     return detected_color
+
 
 def release_camera():
     """Closes all OpenCV windows."""

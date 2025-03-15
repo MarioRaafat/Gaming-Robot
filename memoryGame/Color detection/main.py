@@ -2,6 +2,7 @@ import cv2
 import threading
 from color_detection import get_frame, detect_color, release_camera
 
+
 def display_camera():
     """Displays the phone camera feed in a moderate-sized window with a centered ROI box."""
     cv2.namedWindow("Live Camera", cv2.WINDOW_NORMAL)
@@ -28,10 +29,11 @@ def display_camera():
         cv2.imshow("Live Camera", frame)
 
         # Press 'Q' to quit
-        if cv2.waitKey(1) & 0xFF == ord('q'):
+        if cv2.waitKey(1) & 0xFF == ord("q"):
             break
 
     release_camera()
+
 
 def color_detection_loop():
     """Waits for user input to trigger color detection."""
@@ -41,6 +43,7 @@ def color_detection_loop():
             break
         detected_color = detect_color()
         print(f"Detected Color: {detected_color}")
+
 
 # Run the camera display in a separate thread
 camera_thread = threading.Thread(target=display_camera, daemon=True)
