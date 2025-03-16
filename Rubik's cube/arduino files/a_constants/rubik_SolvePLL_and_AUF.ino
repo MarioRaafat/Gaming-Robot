@@ -1,130 +1,132 @@
 void AUF();
 
 void Solve_PLL() {
-  int caso = -1;
-  //PLL Skip________________________________________________________________
+  int state = -1;
+  // PLL Skip________________________________________________________________
+  // Check if all edges are already solved (PLL skip case)
   if((Rubik[RF_FRONT][6] == Rubik[RF_FRONT][7]) && (Rubik[RF_FRONT][7] == Rubik[RF_FRONT][8]) &&
      (Rubik[RF_LEFT][6] == Rubik[RF_LEFT][7]) && (Rubik[RF_LEFT][7] == Rubik[RF_LEFT][8]) &&
      (Rubik[RF_BACK][6] == Rubik[RF_BACK][7]) && (Rubik[RF_BACK][7] == Rubik[RF_BACK][8]) && 
      (Rubik[RF_RIGHT][6] == Rubik[RF_RIGHT][7]) && (Rubik[RF_RIGHT][7] == Rubik[RF_RIGHT][8])){
-       caso = 0;
+        state = 0; // PLL skip, no need to execute any algorithm
   } else {
+    // Iterate through 4 rotations to check for PLL cases
     for(int i = 0; i < 4; i++){
-      //Casos com headlights na esquerdas (quase todos)___________________________________
+      // Cases with headlights on the left (most cases)___________________________________
       if(Rubik[RF_LEFT][6] == Rubik[RF_LEFT][8] &&
          Rubik[RF_FRONT][6] != Rubik[RF_FRONT][8]){
-        //Caso T:
+        // T Permutation:
         if(Rubik[RF_FRONT][6] == Rubik[RF_FRONT][7] &&
            Rubik[RF_BACK][7] == Rubik[RF_BACK][8]){
             rubik.RotateStr("RUrurFRRuruRUrf"); 
-            caso = 1;
+            state = 1;
             break; 
         } 
-        //Caso F:
+        // F Permutation:
         else if(Rubik[RF_LEFT][7] == Rubik[RF_LEFT][6] &&
                (Rubik[RF_FRONT][8] == Rubik[RF_BACK][6]) && (Rubik[RF_BACK][6] == Rubik[RF_RIGHT][7])){
                   rubik.RotateStr("rufRUrurFRRuruRUrUR");  
-                  caso = 2;
+                  state = 2;
                   break;
         }
-        //Caso A Horário:
+        // A Permutation (Clockwise):
         else if(Rubik[RF_FRONT][7] == Rubik[RF_FRONT][8] &&
                 Rubik[RF_RIGHT][6] == Rubik[RF_RIGHT][7]){
                   rubik.RotateStr("UrFrBBRfrBBrr"); 
-                  caso = 3;
+                  state = 3;
                   break;
         }
-        //Caso A Anti-Horário:
+        // A Permutation (Counter-Clockwise):
         else if(Rubik[RF_RIGHT][7] == Rubik[RF_RIGHT][8] &&
                 Rubik[RF_BACK][6] == Rubik[RF_BACK][7]){
                   rubik.RotateStr("uRbRffrBRffRR");
-                  caso = 4;
+                  state = 4;
                   break;
         }
-        //Caso Ra:
+        // Ra Permutation:
         else if(Rubik[RF_FRONT][6] == Rubik[RF_FRONT][7] &&
                (Rubik[RF_FRONT][8] == Rubik[RF_BACK][6]) && (Rubik[RF_BACK][6] == Rubik[RF_RIGHT][7])){
                   rubik.RotateStr("RUrfRUUrUUrFRURuur"); 
-                  caso = 5;
+                  state = 5;
                   break;
         }
-        //Caso Rb:
+        // Rb Permutation:
         else if(Rubik[RF_BACK][7] == Rubik[RF_BACK][8] &&
                (Rubik[RF_FRONT][8] == Rubik[RF_BACK][6]) && (Rubik[RF_BACK][6] == Rubik[RF_RIGHT][7])){
                   rubik.RotateStr("urUUrdRurDRURuruR");  
-                  caso = 6;
+                  state = 6;
                   break;
         }
-        //Caso Ja:
+        // Ja Permutation:
         else if(Rubik[RF_FRONT][6] == Rubik[RF_FRONT][7] &&
                 Rubik[RF_RIGHT][6] == Rubik[RF_RIGHT][7] &&
                 Rubik[RF_BACK][6] == Rubik[RF_BACK][7] &&
                 Rubik[RF_LEFT][6] == Rubik[RF_LEFT][8]){
                   rubik.RotateStr("UUluLFluLULfllUL"); 
-                  caso = 7;
+                  state = 7;
                   break;
         }
-        //Caso Jb:
+        // Jb Permutation:
         else if(Rubik[RF_FRONT][7] == Rubik[RF_FRONT][8] &&
                 Rubik[RF_RIGHT][7] == Rubik[RF_RIGHT][8] &&
                 Rubik[RF_BACK][7] == Rubik[RF_BACK][8] &&
                 Rubik[RF_LEFT][6] == Rubik[RF_LEFT][8]){
                   rubik.RotateStr("RUUruRUUlUruL"); 
-                  caso = 8;
+                  state = 8;
                   break;
         }
-        //Caso G1:
+        // G1 Permutation:
         else if(Rubik[RF_FRONT][7] == Rubik[RF_FRONT][8]){
                   rubik.RotateStr("dRRUrUruRuRRuDrUR");  
-                  caso = 9;
+                  state = 9;
                   break;
         }
-        //Caso G2:
+        // G2 Permutation:
         else if(Rubik[RF_BACK][6] == Rubik[RF_BACK][7]){
                   rubik.RotateStr("DRRuRuRUrUrrUdRur");  
-                  caso = 10;
+                  state = 10;
                   break;
         }
-        //Caso G3:
+        // G3 Permutation:
         else if(Rubik[RF_RIGHT][6] == Rubik[RF_RIGHT][7]){
                   rubik.RotateStr("RUruDRRuRurUrUrrd");  
-                  caso = 11;
+                  state = 11;
                   break;
         }
-        //Caso G4:
+        // G4 Permutation:
         else if(Rubik[RF_RIGHT][7] == Rubik[RF_RIGHT][8]){
                   rubik.RotateStr("DruRUdRRUrURuRurr");  
-                  caso = 12;
+                  state = 12;
                   break;
         }
       }
-      //Casos sem headligths:___________________________________________________
-      //Caso Y:
+      // Cases without headlights:___________________________________________________
+      // Y Permutation:
       if(Rubik[RF_FRONT][6] == Rubik[RF_FRONT][7] &&
          Rubik[RF_RIGHT][7] == Rubik[RF_RIGHT][8] &&
          Rubik[RF_FRONT][8] == Rubik[RF_BACK][6]){
            rubik.RotateStr("FUfrrFufuRRUrrURR");
-           caso = 13;
+            state = 13;
            break;       
       } 
-      //Caso V:
+      // V Permutation:
       else if(Rubik[RF_FRONT][6] == Rubik[RF_FRONT][7] &&
               Rubik[RF_LEFT][7] == Rubik[RF_LEFT][8]   &&
               Rubik[RF_FRONT][8] == Rubik[RF_BACK][6] &&
               Rubik[RF_RIGHT][6] != Rubik[RF_RIGHT][7]){
                 rubik.RotateStr("rUURuuLurUlULuRUl"); 
-                caso = 14;
+                state = 14;
                 break; 
       } 
-      //Caso E:
+      // E Permutation:
       else if((Rubik[RF_FRONT][7] == RC_RED)   && (Rubik[RF_LEFT][7] == RC_BLUE)   &&
               (Rubik[RF_BACK][7] == RC_ORANGE) && (Rubik[RF_RIGHT][7] == RC_GREEN) &&
               (Rubik[RF_FRONT][8] == Rubik[RF_BACK][6])){
                 rubik.RotateStr("rUlddLuRlUrDDRuL"); 
-                caso = 15;
+                state = 15;
                 break; 
       }
-      //Caso Que Nunca Aparece1:
+      // Rare Case 1:
       else if(Rubik[RF_LEFT][7] == Rubik[RF_LEFT][8]    &&
               Rubik[RF_BACK][7] == Rubik[RF_BACK][8]   &&
               Rubik[RF_RIGHT][7] == Rubik[RF_RIGHT][8] &&
@@ -134,10 +136,10 @@ void Solve_PLL() {
               Rubik[RF_BACK][6] != Rubik[RF_BACK][8] &&
               Rubik[RF_LEFT][6] != Rubik[RF_LEFT][8]){
                 rubik.RotateStr("LuRUUlUrLuRuulUr");
-                caso = 16;
+                state = 16;
                 break; 
       } 
-      //Caso Que Nunca Aparece2:
+      // Rare Case 2:
       else if(Rubik[RF_LEFT][6] == Rubik[RF_LEFT][7]    &&
               Rubik[RF_BACK][6] == Rubik[RF_BACK][7]   &&
               Rubik[RF_RIGHT][6] == Rubik[RF_RIGHT][7] &&
@@ -147,66 +149,69 @@ void Solve_PLL() {
               Rubik[RF_BACK][6] != Rubik[RF_BACK][8] &&
               Rubik[RF_LEFT][6] != Rubik[RF_LEFT][8]){
                 rubik.RotateStr("lUrUULuRlUrUULuR"); 
-                caso = 17;
+                state = 17;
                 break; 
       }
-      //Casos com headlights em todas as faces________________________________________
+      // Cases with headlights on all faces________________________________________
       if(Rubik[RF_LEFT][6] == Rubik[RF_LEFT][8]   &&
          Rubik[RF_BACK][6] == Rubik[RF_BACK][8]   &&
          Rubik[RF_RIGHT][6] == Rubik[RF_RIGHT][8] &&
          Rubik[RF_FRONT][6] == Rubik[RF_FRONT][8]){
-        //Caso U HorÃ¡rio:
+        // U Permutation (Clockwise):
         if(Rubik[RF_FRONT][7] == Rubik[RF_FRONT][6] &&
            Rubik[RF_LEFT][7] == Rubik[RF_BACK][8]){
             rubik.RotateStr("rUrururURUrr"); 
-            caso = 18;
+            state = 18;
             break; 
         }
-        //Caso U Anti-HorÃ¡rio:
+        // U Permutation (Counter-Clockwise):
         else if(Rubik[RF_FRONT][7] == Rubik[RF_FRONT][6] &&
                 Rubik[RF_LEFT][7] == Rubik[RF_RIGHT][8]){
             rubik.RotateStr("LuLULULuluLL"); 
-            caso = 19;
+            state = 19;
             break; 
         }
-        //Caso H:
+        // H Permutation:
         else if(Rubik[RF_FRONT][7] == Rubik[RF_BACK][6] &&
                 Rubik[RF_LEFT][7] == Rubik[RF_RIGHT][6]){
                   rubik.RotateStr("rrUURuuRRuuRRuuRUUrr"); 
-                  caso = 20;
+                  state = 20;
                   break; 
         }
-        //Caso Z:
+        // Z Permutation:
         else if(Rubik[RF_FRONT][7] == Rubik[RF_RIGHT][6] &&
                 Rubik[RF_LEFT][7] == Rubik[RF_BACK][6]){
                   rubik.RotateStr("RUrUrurURuruRRUR");  
-                  caso = 21;
+                  state = 21;
                   break; 
         }
       } 
+      // Rotate the cube to check the next side
       rubik.RotateStr("u");
     }
   }
-//  Serial.println(caso);
+//  Serial.println  state);
 //  Serial.flush();
 
+  // Adjust the Up Face (AUF) to align the cube correctly
   AUF();
 }
 
 
-void AUF() {               //A.U.F. (adjust Up Face)
+void AUF() {               // A.U.F. (Adjust Up Face)
+  // Align the front face with the correct color
   switch(Rubik[RF_FRONT][7]){
     case RC_RED:    
-      rubik.RotateStr(""); 
+      rubik.RotateStr(""); // No rotation needed
       break;
     case RC_BLUE:   
-      rubik.RotateStr("U");  
+      rubik.RotateStr("U");  // Rotate once
       break;
     case RC_ORANGE: 
-      rubik.RotateStr("uu");   
+      rubik.RotateStr("uu");   // Rotate twice
       break;
     case RC_GREEN:  
-      rubik.RotateStr("u");  
+      rubik.RotateStr("u");  // Rotate counter-clockwise
       break;
   }
 }

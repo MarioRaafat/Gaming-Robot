@@ -91,7 +91,7 @@ const char * const OLL_LUT[64] PROGMEM = {
 //  "RUrurFRf";                              // 13
 //  "uuLfluLUFul";                           // 14
 //  "lRUruLrFRf";                            // 15
-//  "RuurruRuruuFRf";                        // 16   |----------|          //Mudar de alg. Manual nÂº15 e nÂº16
+//  "RuurruRuruuFRf";                        // 16   |----------|         // Switch from manual algorithm No. 15 to No. 16
 //  "UUruRurUfUFR";                          // 17   |    ##    |
 //  "UrfRluLUrFR";                           // 18   |    ##    |
 //  "rFRUrfRFuf";                            // 19   |    ##    |
@@ -206,9 +206,6 @@ int Solve_OLL() {
 
   
   int i = (e * 8) + c;
-//  Serial.println(i);
-//  Serial.flush();
-  //rubik.RotateStr(OLL_LUT[i]);
   rubik.RotateStr_Progmem(ProgStrArray_Index(OLL_LUT, i));
   return i;
 } 
