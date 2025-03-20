@@ -9,17 +9,26 @@ unsigned long redFrequency = 0;
 unsigned long greenFrequency = 0;
 unsigned long blueFrequency = 0;
 
+String Cube_Colors = "null";
 
-void getBit(int currentFace) {
+void getBit(int currentFace) {  //TODO change where this function is called as get all faces
   
   int sticker = 0;
-  while(sticker < 9) {
+  if(Cube_Colors == "null"){
     if(Serial.available() > 0)  {
-      char Incoming_value = Serial.read(); 
-      Serial.print(Incoming_value);
-      Serial.print("\n");
+      Cube_Colors = Serial. readStringUntil('\n');
+      Cube_Colors.trim();
+      Serial.print("Arduino Received ya baby: ");
+      Serial.println(Cube_Colors);
+      delay(100);
+    }
+  }  
+
+  if(Cube_Colors != "null"){
+
+    while(sticker < 9) {
       int color = 0;
-      switch(Incoming_value) {
+      switch(Cube_Colors[currentFace*9 + sticker]) {
         case 'G':
           color = RC_GREEN;
           break;
@@ -40,17 +49,16 @@ void getBit(int currentFace) {
           break;
         default:
           Serial.print("Erro + \'");
-          Serial.print(Incoming_value);
+          Serial.print(Cube_Colors);
           Serial.print("\'");
       }
-      if(Incoming_value == 'G') {
+      if(Cube_Colors == 'G') {
         color = RC_GREEN;
       }
       Rubik[currentFace][sticker++] = color;
     }      
   }
 }
-
 
 void lightAnimation() {
   
