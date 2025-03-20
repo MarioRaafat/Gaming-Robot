@@ -10,11 +10,13 @@ void setup() {
   //Set intial colors;
   rubik.Init();
   // read cube colors
+  // Wait for first signal to read the cube
+  while(Serial.available() == 0) {} 
   Read_Cube();
   // print recieved colors
   rubik.Print();
   //servos_test();
-  Menu_Print();
+  //Menu_Print();
 }
 
 void loop() {
