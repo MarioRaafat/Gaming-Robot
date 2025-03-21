@@ -196,19 +196,60 @@ class Pusher : public RServo {
       }
     }
 };
+class Pusher2 {
+  private:
+    int motorPin1;  // L293D Input 1
+    int motorPin2;  // L293D Input 2
+ //   int phy_med;    // Offset for movement calibration
+
+  public:
+    // Constructor: Initializes motor control pins
+    Pusher2(int motorPin1, int motorPin2) {
+      this->motorPin1 = motorPin1;
+      this->motorPin2 = motorPin2;
+
+      pinMode(motorPin1, OUTPUT);
+      pinMode(motorPin2, OUTPUT);
+    }
+
+    // Moves forward or backward based on the `phy` value
+    void rmove(int phy) {
+
+      if (phy > 0) {  // Move forward
+        digitalWrite(motorPin1, HIGH);
+        digitalWrite(motorPin2, LOW);
+      } else {  // Move backward
+        digitalWrite(motorPin1, LOW);
+        digitalWrite(motorPin2, HIGH);
+      }
+
+      delay(abs(phy)); // Delay determines movement duration
+      stopMotor();
+    }
+
+    // Stops the motor
+    void stopMotor() {
+      digitalWrite(motorPin1, LOW);
+      digitalWrite(motorPin2, LOW);
+    }
+};
 
 
-Rotater Up_Right(0, 5, 405, 0);             //motor para rodar a face da direita no pino 0
-Rotater Up_Back(1, 0, 400, 0);              //motor para rodar a face de trás no pino 1
-Rotater Up_Left(2, 0, 400, 0);              //motor para rodar a face da esquerda no pino 2
-Rotater Up_Front(3, -20, 380, 0);             //motor para rodar a face da frente no pino 3
+Rotater Up_Right(0, 5, 405, 0); // motor to rotate the right face on pin 0
+Rotater Up_Back(1, 0, 400, 0); // motor to rotate the back face on pin 1
+Rotater Up_Left(2, 0, 400, 0); // motor to rotate the left face on pin 2
+Rotater Up_Front(3, -20, 380, 0); // motor to rotate the front face on pin 3
 
-Pusher Down_Right(4, 46);            //motor para andar a face da direita no pino 4
-Pusher Down_Back(5, 47);             //motor para andar a face de trás no pino 5
-Pusher Down_Left(6, 48);             //motor para andar a face da esquerda no pino 6
-Pusher Down_Front(7, 46);            //motor para andar a face da frente no pino 7
+Pusher Down_Right(4, 46); // motor to move the right face on pin 4
+Pusher Down_Back(5, 47); // motor to move the back face on pin 5
+Pusher Down_Left(6, 48); // motor to move the left face on pin 6
+Pusher Down_Front(7, 46); // motor to move the front face on pin 7
 
-
+// for the DC-Motor
+Pusher2 Down_Right2(4,5); // motor to move the right face on pin 4
+Pusher2 Down_Back2(6,7); // motor to move the back face on pin 5
+Pusher2 Down_Left2(8,9); // motor to move the left face on pin 6
+Pusher2 Down_Front2(10,11); // motor to move the front face on pin 7
 
 void servos_init();
 void servos_init() {
