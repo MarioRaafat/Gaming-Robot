@@ -3,16 +3,19 @@ import numpy as np
 import urllib.request
 
 # Change this URL to match your phone's camera stream (IP Webcam)
-PHONE_CAMERA_URL = "http://192.168.1.14:8080/shot.jpg"
+PHONE_CAMERA_URL = "http://192.168.1.7:8080/shot.jpg"
 
 # Define color ranges in HSV (Adjust based on your lighting conditions)
 COLOR_RANGES = {
-    "Red": [(0, 100, 100), (10, 255, 255)],
-    "Orange": [(10, 100, 100), (25, 255, 255)],
-    "Yellow": [(20, 100, 100), (40, 255, 255)],
-    "Green": [(40, 40, 40), (80, 255, 255)],
-    "Blue": [(90, 50, 50), (130, 255, 255)],
-    "Black": [(0, 0, 0), (180, 255, 30)],
+    "Red": [(0, 100, 100), (19, 255, 255)],
+    "Orange": [(20, 100, 100), (49, 255, 255)],
+    "Yellow": [(50, 100, 100), (89, 255, 255)],
+    "Green": [(90, 40, 40), (159, 255, 255)],
+    "Sky blue": [(160, 50, 50), (210, 255, 255)],
+    "Blue": [(211, 50, 50), (261, 255, 255)],
+    "Purple": [(262, 50, 50), (324, 255, 255)],
+    "Pink": [(325, 50, 50), (360, 255, 255)],
+    "Black": [(0, 0, 0), (180, 255, 50)],
 }
 
 
@@ -37,7 +40,7 @@ def detect_color():
     """Detects the color in the center region of the frame."""
     frame = get_frame()
     if frame is None:
-        return None
+        return None, None
 
     # Convert frame to HSV
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -58,16 +61,17 @@ def detect_color():
     roi = hsv[y1:y2, x1:x2]  # Extract ROI
 
     # Calculate average color in ROI
-    avg_color = np.mean(roi, axis=(0, 1)).astype(int)
+    avg_hsv = np.mean(roi, axis=(0, 1)).astype(int)
+    detected_hsv = tuple(avg_hsv)
 
     # Check which color matches best
     detected_color = "Unknown"
     for color, (lower, upper) in COLOR_RANGES.items():
-        if all(lower[i] <= avg_color[i] <= upper[i] for i in range(3)):
+        if all(lower[i] <= avg_hsv[i] <= upper[i] for i in range(3)):
             detected_color = color
             break
 
-    return detected_color
+    return detected_color, detected_hsv
 
 
 def release_camera():
