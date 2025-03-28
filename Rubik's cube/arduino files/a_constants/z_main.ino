@@ -11,23 +11,24 @@ void setup() {
   rubik.Init();
   // read cube colors
   // Wait for first signal to read the cube
-  while(Serial.available() == 0) {} 
-  Read_Cube();
+  //while(Serial.available() == 0) {} 
+  //Read_Cube();
   // print recieved colors
-  rubik.Print();
+  //rubik.Print();
   //servos_test();
   //Menu_Print();
+  rubik.Sramble(30);
 }
 
 void loop() {
   //Menu_Process();
   //servos_test();
-  Serial.print(F("Solving the cube.")); delay(600);
-  Serial.print(F(".")); delay(600);
-  Serial.print(F(".")); delay(800); Serial.print(F("\n"));
-  Serial.print(F("\n")); Serial.print(F("Moves to solve the cube: ")); Serial.print(F("\n"));
-  rubik.SolveSequence();
-  servos_init();
-  rubik.Print();
-  while(true){}
+//  Serial.print(F("Solving the cube.")); delay(600);
+//  Serial.print(F(".")); delay(600);
+//  Serial.print(F(".")); delay(800); Serial.print(F("\n"));
+//  Serial.print(F("\n")); Serial.print(F("Moves to solve the cube: ")); Serial.print(F("\n"));
+//  rubik.SolveSequence();
+//  servos_init();
+//  rubik.Print();
+//  while(true){}
 }

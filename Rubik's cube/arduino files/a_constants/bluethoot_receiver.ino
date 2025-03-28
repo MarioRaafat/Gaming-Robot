@@ -48,8 +48,8 @@ void getBit(int currentFace) {  //TODO change where this function is called as g
           color = RC_ORANGE;
           break;
         default:
-          Serial.print("Erro + \'");
-          Serial.print(Cube_Colors);
+          //Serial.print("Erro + \'");
+          //Serial.print(Cube_Colors);
           Serial.print("\'");
       }
       if(Cube_Colors == 'G') {

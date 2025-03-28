@@ -16,20 +16,20 @@ face_instructions = [
 ]
 
 def get_color_from_hsv(h, s, v):
-    if s < 40 and v > 120:  # White (low saturation, high brightness)
-        return 'w'
-    elif (h < 10 or h >= 170) and s > 40:  # Red (hue near 0 or 180)
-        return 'r'
-    elif 10 <= h < 20 and s > 50:  # Orange (distinct hue)
-        return 'o'
-    elif 20 <= h < 30 and s > 50:  # Yellow (clear separation)
-        return 'y'
-    elif 35 <= h < 85 and s > 40:  # Green (medium hue range)
-        return 'g'
-    elif 90 <= h < 125 and s > 40:  # Blue (typical blue hue)
-        return 'b'
+    if s < 120 and v > 120:  # White (low saturation, high brightness)
+        return 'W'
+    elif (h >= 130) :  # Red (hue near 0 or 180)
+        return 'R'
+    elif 5 <= h < 25 :  # Orange (distinct hue)
+        return 'O'
+    elif 20 <= h < 38 :  # Yellow (clear separation)
+        return 'Y'
+    elif 40 <= h < 53 and s>=90:  # Green (medium hue range)
+        return 'G'
+    elif 90 <= h < 100 :  # Blue (typical blue hue)
+        return 'B'
     else:
-        return 'unknown'  # Default for unclassified colors
+        return 'B'  # Default for unclassified colors
 
 
 
@@ -60,7 +60,7 @@ def drawCube(img, size, shape, start_point):
                  (start_point[0] + i * cell, start_point[1] + size), (0, 0, 0), 2)
 
 # Initialize camera
-videoFeed = cv2.VideoCapture("http://192.168.1.10:4747/video")  # Replace with your camera source if different
+videoFeed = cv2.VideoCapture(2)  # Replace with your camera source if different
 face_index = 0  # Keep track of which face is being scanned
 faces = []  # List to store color sequences for all six faces
 

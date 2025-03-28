@@ -18,7 +18,8 @@ static void clearVision() {
   Up_Front.Rotate(180); // Rotate the front up motor to 180 degrees
 }
 
-void Read_Cube() {
+void 
+Read_Cube() {
 
    clearVision(); // 1 sec delay
   //face 0 = right , delay to second face is about 0 seconds

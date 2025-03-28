@@ -12,7 +12,7 @@ Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 #define DELAY_BETWEEN_STEPS (150)
 #define DELAY_BETWEEN_STEPS2 (500) 
 
-//relativo ao phy_med
+//relative to phy_med
 int place[] = {15, 0, -18, -24};
 
 //Base class
@@ -200,21 +200,23 @@ class Pusher2 {
   private:
     int motorPin1;  // L293D Input 1
     int motorPin2;  // L293D Input 2
+    int motorEnable;
  //   int phy_med;    // Offset for movement calibration
 
   public:
     // Constructor: Initializes motor control pins
-    Pusher2(int motorPin1, int motorPin2) {
+    Pusher2(int motorPin1, int motorPin2,int motorEnable) {
       this->motorPin1 = motorPin1;
       this->motorPin2 = motorPin2;
-
+      this->motorEnable = motorEnable;
+      pinMode(motorEnable,OUTPUT);
       pinMode(motorPin1, OUTPUT);
       pinMode(motorPin2, OUTPUT);
     }
 
     // Moves forward or backward based on the `phy` value
     void rmove(int phy) {
-
+      analogWrite(motorEnable,120);
       if (phy > 0) {  // Move forward
         digitalWrite(motorPin1, HIGH);
         digitalWrite(motorPin2, LOW);
@@ -223,7 +225,7 @@ class Pusher2 {
         digitalWrite(motorPin2, HIGH);
       }
 
-      delay(abs(phy)); // Delay determines movement duration
+      delay(200); // Delay determines movement duration
       stopMotor();
     }
 
@@ -240,16 +242,16 @@ Rotater Up_Back(1, 0, 400, 0); // motor to rotate the back face on pin 1
 Rotater Up_Left(2, 0, 400, 0); // motor to rotate the left face on pin 2
 Rotater Up_Front(3, -20, 380, 0); // motor to rotate the front face on pin 3
 
-Pusher Down_Right(4, 46); // motor to move the right face on pin 4
-Pusher Down_Back(5, 47); // motor to move the back face on pin 5
-Pusher Down_Left(6, 48); // motor to move the left face on pin 6
-Pusher Down_Front(7, 46); // motor to move the front face on pin 7
+//Pusher Down_Right(4, 46); // motor to move the right face on pin 4
+//Pusher Down_Back(5, 47); // motor to move the back face on pin 5
+Pusher Down_Left(13, 48); // motor to move the left face on pin 6
+Pusher Down_Front(12, 46); // motor to move the front face on pin 7
 
 // for the DC-Motor
-Pusher2 Down_Right2(4,5); // motor to move the right face on pin 4
-Pusher2 Down_Back2(6,7); // motor to move the back face on pin 5
-Pusher2 Down_Left2(8,9); // motor to move the left face on pin 6
-Pusher2 Down_Front2(10,11); // motor to move the front face on pin 7
+Pusher2 Down_Right(7,8,9); // motor to move the right face on pin 4
+Pusher2 Down_Back(5,6,4); // motor to move the back face on pin 5
+//Pusher2 Down_Left(5,6,10); // motor to move the left face on pin 6
+//Pusher2 Down_Front(12,13,11); // motor to move the front face on pin 7
 
 void servos_init();
 void servos_init() {
@@ -257,6 +259,7 @@ void servos_init() {
   Up_Back.Rotate(90);
   Up_Left.Rotate(90);
   Up_Front.Rotate(90);
+  
   Down_Right.rmove(-30);
   Down_Back.rmove(-30);
   Down_Left.rmove(-30);

@@ -233,9 +233,11 @@ void Rubik_Rotate(char rot, bool motorsMove) {
       for(int i = 0; i < resolutionStr.length(); i++) {
         Rubik_Rotate(resolutionStr.charAt(i), true);
       }
-      Serial.print("\nResolução = ");  Serial.print(resolutionStr);  Serial.print(F("\n")); 
-      Serial.print("        (HTM = ");  Serial.print(HTM);  Serial.print(F(")")); 
-      Serial.print("  (QTM = ");  Serial.print(QTM);  Serial.print(F(")"));  Serial.print(F("\n"));
+      Serial.print("\nResolution String = ");  Serial.print(resolutionStr);  
+      Serial.print(F("\n")); 
+      Serial.print("  (HTM = ");  Serial.print(HTM);  Serial.print(F(")")); 
+      Serial.print("  (QTM = ");  Serial.print(QTM);  Serial.print(F(")"));  
+      Serial.print(F("\n"));
       Print();
     }
   
