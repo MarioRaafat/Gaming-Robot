@@ -216,7 +216,8 @@ void Rubik_Rotate(char rot, bool motorsMove) {
   
     void SolveSequence() {
       CopyCube(Rubik, Rubik_ToSolve);
-      Print();
+     // Print();
+      Serial.println("Solving...");
       delay(1000);
       // solve white cross
       Solve_WhiteCross_1 ();
@@ -228,6 +229,7 @@ void Rubik_Rotate(char rot, bool motorsMove) {
       SolveF2L();
       Solve_OLL();
       Solve_PLL();
+      Serial.println("Solving2...");
       ProcessStr();
       CopyCube(Rubik_ToSolve, Rubik);
       for(int i = 0; i < resolutionStr.length(); i++) {

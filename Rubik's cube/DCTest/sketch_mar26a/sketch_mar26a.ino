@@ -49,9 +49,9 @@ void directionControl(char command) {
 }
 
 void moveForward() {
-  analogWrite(enA, 120);
-  analogWrite(enB, 120);
-  analogWrite(enC, 120);
+  analogWrite(enA, 170);
+  analogWrite(enB, 170);
+  analogWrite(enC, 170);
   digitalWrite(in1, HIGH);
   digitalWrite(in2, LOW);
   digitalWrite(in3, HIGH);
@@ -63,9 +63,9 @@ void moveForward() {
 }
 
 void moveBackward() {
-  analogWrite(enA, 120);
-  analogWrite(enB, 120);
-  analogWrite(enC, 120);
+  analogWrite(enA, 170);
+  analogWrite(enB, 170);
+  analogWrite(enC, 170);
   digitalWrite(in1, LOW);
   digitalWrite(in2, HIGH);
   digitalWrite(in3, LOW);

@@ -1,7 +1,9 @@
 import cv2
 import numpy as np
+import serial
+import time
 
-
+#working
 h_avg = 0
 s_avg = 0
 v_avg = 0
@@ -16,7 +18,7 @@ face_instructions = [
 ]
 
 def get_color_from_hsv(h, s, v):
-    if s < 120 and v > 120:  # White (low saturation, high brightness)
+    if s < 70 and v > 120:  # White (low saturation, high brightness)
         return 'W'
     elif (h >= 130) :  # Red (hue near 0 or 180)
         return 'R'
@@ -121,7 +123,48 @@ while True:
         print("Final Cube Colors:", faces)
     elif key == ord('q'):  # Exit the program when 'q' is pressed
         break
+    
 
 # Release video feed and close OpenCV windows
 videoFeed.release()
 cv2.destroyAllWindows()
+
+
+def sendDataToArduino(data):
+    arduino.write((data + "\n").encode('utf-8'))
+ #   arduino.write((data + "\n").encode('utf-8'))
+    time.sleep(0.2)  # Wait for Arduino to process the data
+    ack = arduino.readline().decode().strip()
+    if ack:
+     print(f"{ack}")
+
+# Initialize serial communication
+arduino = serial.Serial(port='COM4', baudrate=9600, timeout=1)  
+time.sleep(5)  # Wait for Arduino to initialize
+
+# Flatten the 2D array to a 1D array
+flattened_faces = [color for face in faces for color in face]
+
+# Concatenate all items in the 1D array into a single string
+toSend = ''.join(flattened_faces)
+print(toSend)
+testdata = "hello from   python"
+
+sendDataToArduino(toSend)
+
+# # print every
+while True:
+       
+    if arduino.in_waiting > 0:
+        line = arduino.readline().decode('utf-8').rstrip()
+        print("Received:", line)
+
+arduino.close()
+
+
+
+
+
+
+
+

@@ -30,3 +30,4 @@ int Rubik_FaceToColorLUT[] = {
 
 // 2D-array of 6 faces * 9 colors per face
 unsigned char Rubik[RF_TOTAL_FACES][9];
+String Cube_Colors = "null";

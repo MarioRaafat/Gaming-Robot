@@ -9,21 +9,9 @@ unsigned long redFrequency = 0;
 unsigned long greenFrequency = 0;
 unsigned long blueFrequency = 0;
 
-String Cube_Colors = "null";
-
 void getBit(int currentFace) {  //TODO change where this function is called as get all faces
   
   int sticker = 0;
-  if(Cube_Colors == "null"){
-    if(Serial.available() > 0)  {
-      Cube_Colors = Serial. readStringUntil('\n');
-      Cube_Colors.trim();
-      Serial.print("Arduino Received ya baby: ");
-      Serial.println(Cube_Colors);
-      delay(100);
-    }
-  }  
-
   if(Cube_Colors != "null"){
 
     while(sticker < 9) {
