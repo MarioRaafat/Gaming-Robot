@@ -1,5 +1,5 @@
-#define DELAY_BETWEEN_STEPS1 (500) 
-#define APERTO (4)
+//#define DELAY_BETWEEN_STEPS1 (500) 
+//#define APERTO (4)
 
 /*
 static void clearVision() {

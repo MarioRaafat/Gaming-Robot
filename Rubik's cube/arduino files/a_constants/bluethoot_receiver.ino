@@ -5,10 +5,6 @@
 #define LED1 6
 #define LED2 7
 
-unsigned long redFrequency = 0;
-unsigned long greenFrequency = 0;
-unsigned long blueFrequency = 0;
-
 void getBit(int currentFace) {  //TODO change where this function is called as get all faces
   
   int sticker = 0;
@@ -47,7 +43,7 @@ void getBit(int currentFace) {  //TODO change where this function is called as g
     }      
   }
 }
-
+/*
 void lightAnimation() {
   
   for(int i = 0; i < 8; i++) {
@@ -59,3 +55,4 @@ void lightAnimation() {
     delay(200);
   }
 }
+*/

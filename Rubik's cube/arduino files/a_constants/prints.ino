@@ -1,6 +1,6 @@
 #define PRINT_WITH_COLORS (false)
 
-
+/*
 void Rubik_PrintColor (int color) {
   if(PRINT_WITH_COLORS) {
     switch (color) {
@@ -26,7 +26,6 @@ void Rubik_PrintColor (int color) {
   Serial.flush();
 }
 
-
 void Rubik_PrintSpace () {
   Serial.print("   ");
 }
@@ -46,3 +45,4 @@ void Cubo::Print() {
     }
   }
 }
+*/

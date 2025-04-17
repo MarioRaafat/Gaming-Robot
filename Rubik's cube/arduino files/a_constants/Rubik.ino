@@ -20,9 +20,17 @@ class Cubo {
       }
     }
 
-    void Print();
+    void Print(){
 
-    
+  Serial.print("Saved colors from cube:");
+  for (int face = 0; face < RF_TOTAL_FACES; face ++) {
+    for (int i = 0; i < 9; i++) {
+        // get corresponding face color
+        int color = Rubik_FaceToColorLUT[face];
+        Serial.print(Rubik[face][i]);
+    }
+  }
+}    
 void Rubik_Rotate(char rot, bool motorsMove) {
  // static char storeMove;
   bool MotorRotate = motorsMove;
