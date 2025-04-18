@@ -134,7 +134,7 @@ void loop() {
         flip();
     } else if (command == "ACTIVE") {
         pumpOn();  
-    } else if (command == "DEACTIVETED") {
+    } else if (command == "DEACTIVATE") {
         pumpOff();
     }
 }

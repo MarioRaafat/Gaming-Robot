@@ -110,9 +110,9 @@ def check_match(pos1, pos2):
 
 # the handling of the commands is done in the arduino code
 
-def deactive_pump():
+def deactivate_pump():
     send_command_to_arduino(f"DOWN")
-    send_command_to_arduino(f"DEACTIVETED")
+    send_command_to_arduino(f"DEACTIVATE")
     send_command_to_arduino(f"UP")
     return
 
@@ -129,7 +129,7 @@ def elimnate_card(pos):
     send_command_to_arduino(f"MOVE {card_angles[0]} {card_angles[1]} {card_angles[2]}")
     active_pump()
     send_command_to_arduino(f"MOVE {elimnate_angels[0]} {elimnate_angels[1]} {elimnate_angels[2]}")
-    deactive_pump()
+    deactivate_pump()
     
     cards_memory[pos] = "deleted"
     return
@@ -180,13 +180,13 @@ def play_turn():
     cards_memory[pos] = detected_color
 
     send_command_to_arduino(f"MOVE {flip_angels[0]},{flip_angels[1]},{flip_angels[2]}")
-    deactive_pump()
+    deactivate_pump()
     send_command_to_arduino(f"FLIP")
     send_command_to_arduino(f"MOVE {unflip_angels[0]},{unflip_angels[1]},{unflip_angels[2]}")
     active_pump()
 
     send_command_to_arduino(f"MOVE {flip_angels[0]},{flip_angels[1]},{flip_angels[2]}")
-    deactive_pump()
+    deactivate_pump()
     send_command_to_arduino(f"FLIP")
     
     # Step 6: Look for a known match
@@ -199,14 +199,14 @@ def play_turn():
             send_command_to_arduino(f"MOVE {unflip_angels[0]},{unflip_angels[1]},{unflip_angels[2]}")
             active_pump()
             send_command_to_arduino(f"MOVE {elimnate_angels[0]},{elimnate_angels[1]},{elimnate_angels[2]}")
-            deactive_pump()
+            deactivate_pump()
             cards_memory[pos] = "deleted"
             return
         
     send_command_to_arduino(f"MOVE {unflip_angels[0]},{unflip_angels[1]},{unflip_angels[2]}")
     active_pump()
     send_command_to_arduino(f"MOVE {angles[0]},{angles[1]},{angles[2]}")
-    deactive_pump()
+    deactivate_pump()
 
 
     print("📝 Round done")
@@ -239,7 +239,7 @@ def test_move():
     wait_for_enter()
 
     send_command_to_arduino(f"MOVE {angles[0]},{angles[1]},{angles[2]}")
-    #deactive_pump()
+    #deactivate_pump()
     wait_for_enter()
     send_command_to_arduino(f"MOVE {camera_angels[0]} {camera_angels[1]} {camera_angels[2]}")
 
