@@ -1,4 +1,4 @@
-void Menu_Print() {
+/*void Menu_Print() {
   // Print the menu header
   Serial.println(F("M E N U")); // Print "M E N U" to the serial monitor
   Serial.println(F("==============")); // Print a separator line
@@ -187,4 +187,4 @@ void Menu_Process() {
         Serial.print(F("invalid command")); // Print "Invalid Command"
     }
   }
-}
+}*/

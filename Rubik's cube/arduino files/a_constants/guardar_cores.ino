@@ -1,7 +1,7 @@
-#define DELAY_BETWEEN_STEPS1 (500) 
-#define APERTO (4)
+//#define DELAY_BETWEEN_STEPS1 (500) 
+//#define APERTO (4)
 
-
+/*
 static void clearVision() {
   // Move the right and left down motors to their designated positions
   Down_Right.rmove(place[3]); // Move the right down motor to position stored in place[3]
@@ -17,17 +17,24 @@ static void clearVision() {
   Up_Back.Rotate(0);   // Rotate the back up motor to 0 degrees
   Up_Front.Rotate(180); // Rotate the front up motor to 180 degrees
 }
-
-void 
-Read_Cube() {
-
-   clearVision(); // 1 sec delay
+*/
+void Read_Cube() {
+   Serial.println("Now I can recieve ya baby");
+   while(Serial.available() == 0){
+    }
+   Cube_Colors = Serial. readStringUntil('\n');
+   Cube_Colors.trim();
+   Serial.print("Arduino Received ya baby: ");
+   Serial.println(Cube_Colors);
+   delay(100);
+ //  clearVision(); // 1 sec delay
   //face 0 = right , delay to second face is about 0 seconds
    getBit(RF_RIGHT);
-   Up_Back.Rotate(180);
-   Up_Front.Rotate(0);
+ //  Up_Back.Rotate(180);
+ //  Up_Front.Rotate(0);
    //face 1 = left , delay to 3rd face is about 1.5 second
    getBit(RF_LEFT);
+ /*
    Up_Front.Rotate(90);
    Up_Back.Rotate(90);
    Down_Front.rmove(place[1]);
@@ -41,12 +48,14 @@ Read_Cube() {
    delay(DELAY_BETWEEN_STEPS1);
    Up_Right.Rotate(0);
    Up_Left.Rotate(180);
+   */
    //face 2 = Up , delay to 4th face is about 0 seconds
    getBit(RF_UP);
-   Up_Right.Rotate(180);
-   Up_Left.Rotate(0);
+  // Up_Right.Rotate(180);
+  // Up_Left.Rotate(0);
    //face 3 = Down , delay to 5th face is about 2 seconds
    getBit(RF_DOWN);
+   /*
    Up_Right.Rotate(90);
    Up_Left.Rotate(90);
    Down_Right.rmove(place[1]);
@@ -57,12 +66,14 @@ Read_Cube() {
    delay(DELAY_BETWEEN_STEPS1); // 0.5 sec delay
    ServosCube_MoveZ();
    clearVision(); // 1 sec delay
+   */
   //face 4 = front , delay to 6th face is about 0 seconds
    getBit(RF_FRONT);
-   Up_Back.Rotate(180);
-   Up_Front.Rotate(0);
+ //  Up_Back.Rotate(180);
+ //  Up_Front.Rotate(0);
    //face 5 = back , final face
    getBit(RF_BACK);
+   /*
    Up_Back.Rotate(90);
    Up_Front.Rotate(90);
    Down_Front.rmove(place[1]);
@@ -73,4 +84,5 @@ Read_Cube() {
    delay(DELAY_BETWEEN_STEPS1);
    ServosCube_Movez();
    delay(DELAY_BETWEEN_STEPS1);
+   */
 }
