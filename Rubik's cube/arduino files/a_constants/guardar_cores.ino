@@ -18,22 +18,22 @@ static void clearVision() {
   Up_Front.Rotate(180); // Rotate the front up motor to 180 degrees
 }
 */
-void Read_Cube() {
+void get_solution_string() {
    Serial.println("Now I can recieve ya baby");
    while(Serial.available() == 0){
     }
-   Cube_Colors = Serial. readStringUntil('\n');
-   Cube_Colors.trim();
+   solution_String = Serial. readStringUntil('\n');
+   solution_String.trim();
    Serial.print("Arduino Received ya baby: ");
-   Serial.println(Cube_Colors);
+   Serial.println(solution_String);
    delay(100);
  //  clearVision(); // 1 sec delay
   //face 0 = right , delay to second face is about 0 seconds
-   getBit(RF_RIGHT);
+   
  //  Up_Back.Rotate(180);
  //  Up_Front.Rotate(0);
    //face 1 = left , delay to 3rd face is about 1.5 second
-   getBit(RF_LEFT);
+   
  /*
    Up_Front.Rotate(90);
    Up_Back.Rotate(90);
@@ -50,11 +50,9 @@ void Read_Cube() {
    Up_Left.Rotate(180);
    */
    //face 2 = Up , delay to 4th face is about 0 seconds
-   getBit(RF_UP);
   // Up_Right.Rotate(180);
   // Up_Left.Rotate(0);
    //face 3 = Down , delay to 5th face is about 2 seconds
-   getBit(RF_DOWN);
    /*
    Up_Right.Rotate(90);
    Up_Left.Rotate(90);
@@ -68,11 +66,9 @@ void Read_Cube() {
    clearVision(); // 1 sec delay
    */
   //face 4 = front , delay to 6th face is about 0 seconds
-   getBit(RF_FRONT);
  //  Up_Back.Rotate(180);
  //  Up_Front.Rotate(0);
    //face 5 = back , final face
-   getBit(RF_BACK);
    /*
    Up_Back.Rotate(90);
    Up_Front.Rotate(90);

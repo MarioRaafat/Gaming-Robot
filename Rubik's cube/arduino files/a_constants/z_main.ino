@@ -1,42 +1,18 @@
+#include <Servo.h>
+
 void setup() {
-  pwm.begin();
-  pwm.setPWMFreq(60);
+  Serial.begin(9600);
+  // pwm.begin();
+  // pwm.setPWMFreq(60);
+  
   //intializes servo positions
   servos_init();
-  //Serial recieved data at baud rate 9600
-  Serial.begin(9600); 
-  // 2 seconds delay to give process time
-  //Set intial colors;
-  rubik.Init();
-  // read cube colors
-  // Wait for first signal to read the cube
- // while(Serial.available() == 0) {} 
-    Read_Cube();
-   //print recieved colors
-  rubik.Print();
-  //servos_test();
-  //Menu_Print();
- // rubik.Sramble(30);
+ 
+  get_solution_string();
+
+  analyze_moves(solution_String);
 }
 
 void loop() {
-  //Menu_Process();
-  //servos_test();
-  Serial.println(F("Solving the cube."));
-  delay(600);
-  Serial.print(F("."));
-  delay(600);
-  Serial.print(F("."));
-  delay(800);
-  Serial.print(F("\n"));
-  Serial.print(F("\n"));
-  Serial.print(F("Moves to solve the cube: "));
-  Serial.print(F("\n"));
-  rubik.SolveSequence();
-//  servos_init();
-//  rubik.Print();  
-// BBRYYBBYGROROBYRRGWRGRRBOROYWYYGOBWGOGWBOWYOYOGBGWGWWW
-// green - blue 
-// BYOOGOGOYGWYOBYBWG
-while(true){}
+
 }
