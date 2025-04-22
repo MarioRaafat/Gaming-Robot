@@ -3,66 +3,36 @@
 Servo bigAngleServo;
 Servo babyAngleServo;
 Servo rotationalServo;
-Servo flipingServo;
+
 
 // control the pump by using a motor driver L293D
 const int pump_IN1 = 8;
 const int pump_IN2 = 9;
 const int pump_ENA = 10;
-
+int nextCubepos = 0;
+int CubesPlaces[5][2] = {
+    {0, 0},
+    {0, 1}, 
+    {1, 0}, 
+    {1, 1},
+    {1, 1}
+};
+void GetNextCube() {
+    if (nextCubepos >= 5) return;
+    moveArm(CubesPlaces[nextCubepos][0],CubesPlaces[nextCubepos][1],0);
+    pumpOn();
+    nextCubepos++;
+}
 
 void setup() {
     Serial.begin(9600);
     bigAngleServo.attach(3);
     babyAngleServo.attach(5);
     rotationalServo.attach(6);
-    flipingServo.attach(9);
-
-    flipingServo.write(0); // Initialize fliping servo to 0 degrees to avoid flipping at startup
 
     pinMode(pump_IN1, OUTPUT);
     pinMode(pump_IN2, OUTPUT);
     pinMode(pump_ENA, OUTPUT);
-}
-
-// Function to read numbers from the command string, I know this is not the best way but it works and fuck arduino
-void ReadNumbers(const char* command, int* angle1, int* angle2, int* angle3) {
-    int i = 0;
-
-    while (command[i] && !isdigit(command[i])) {
-        i++;
-    }
-
-    // Parse first number
-    *angle1 = 0;
-    while (isdigit(command[i])) {
-        *angle1 = (*angle1 * 10) + (command[i] - '0');
-        i++;
-    }
-
-    // Skip spaces
-    while (command[i] && !isdigit(command[i])) {
-        i++;
-    }
-
-    // Parse second number
-    *angle2 = 0;
-    while (isdigit(command[i])) {
-        *angle2 = (*angle2 * 10) + (command[i] - '0');
-        i++;
-    }
-
-    // Skip spaces
-    while (command[i] && !isdigit(command[i])) {
-        i++;
-    }
-
-    // Parse third number
-    *angle3 = 0;
-    while (isdigit(command[i])) {
-        *angle3 = (*angle3 * 10) + (command[i] - '0');
-        i++;
-    }
 }
 
 void moveArm(int angle1, int angle2, int angle3) {
@@ -71,37 +41,21 @@ void moveArm(int angle1, int angle2, int angle3) {
     bigAngleServo.write(angle1);
     delay(1000);
     babyAngleServo.write(angle2);
-    delay(500);
-    Serial.println("DONE");  // Notify Python
-}
-
-void verticalMove(int direction) {
-    if (direction > 0) {
-        babyAngleServo.write(80);
-    } else if (direction < 0) {
-        for (int pos = 50; pos >= 20; pos--) {
-            babyAngleServo.write(pos);
-            delay(40);
-        }
-    }
-
-    delay(500);
-    Serial.println("DONE");  // Notify Python
+    delay(1000);
 }
 
 void pumpOn() {
     digitalWrite(pump_IN1, HIGH);
     digitalWrite(pump_IN2, LOW);
     digitalWrite(pump_ENA, HIGH);
-
-    Serial.println("DONE");  // Notify Python
 }
 
 void pumpOff() {
     digitalWrite(pump_ENA, LOW);
-
-    Serial.println("DONE");  // Notify Python
 }
+
+
+
 
 void loop() {
     while(!Serial.available());
@@ -109,17 +63,50 @@ void loop() {
     String command = Serial.readStringUntil('\n');  // Read command
     command.trim();  // Remove spaces/newlines
 
-    if (command.startsWith("MOVE ")) {
-        int angle1, angle2, angle3;
-        ReadNumbers(command.c_str(),&angle1,&angle2,&angle3);   
-        moveArm(angle1, angle2, angle3);
-    } else if (command == "UP") {
-        verticalMove(1);
-    } else if (command == "DOWN") {
-        verticalMove(-1);
-    } else if (command == "ACTIVE") {
-        pumpOn();  
-    } else if (command == "DEACTIVATE") {
-        pumpOff();
+    
+    if (command == "top-left") {
+      GetNextCube();
+      moveArm(90, 90, 90);
+      pumpOff();
+    }
+    else if (command == "top-center") {
+      GetNextCube();
+      moveArm(90, 90, 90);
+      pumpOff();
+    }
+    else if (command == "top-right") {
+      GetNextCube();
+      moveArm(90, 90, 90);
+      pumpOff();
+    }
+    else if (command == "middle-left") {
+      GetNextCube();
+      moveArm(90, 90, 90);
+      pumpOff();
+    }
+    else if (command == "middle-center") {
+      GetNextCube();
+      moveArm(90, 90, 90);
+      pumpOff();
+    }
+    else if (command == "middle-right") {
+      GetNextCube();
+      moveArm(90, 90, 90);
+      pumpOff();
+    }
+    else if (command == "bottom-left") {
+      GetNextCube();
+      moveArm(90, 90, 90);
+      pumpOff();
+    }
+    else if (command == "bottom-center") {
+      GetNextCube();
+      moveArm(90, 90, 90);
+      pumpOff();
+    }
+    else if (command == "bottom-right") {
+      GetNextCube();
+      moveArm(90, 90, 90);
+      pumpOff();
     }
 }
