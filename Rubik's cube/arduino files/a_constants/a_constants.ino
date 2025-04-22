@@ -22,8 +22,8 @@ enum Rubik_Colors {
 int Rubik_FaceToColorLUT[] = {
     RC_RED, // Front --> Red
     RC_YELLOW,  // UP --> Yellow
-    RC_BLUE,  // Left -- > Blue
-    RC_GREEN, // Right --> Green
+    RC_BLUE,  // Left -- > Blue -- green
+    RC_GREEN, // Right --> Green -- blue
     RC_WHITE, // Down --> White
     RC_ORANGE,// Back --> Orange
 };

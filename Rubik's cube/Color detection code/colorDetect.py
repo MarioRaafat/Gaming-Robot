@@ -129,6 +129,8 @@ while True:
 videoFeed.release()
 cv2.destroyAllWindows()
 
+# start to solve and then send to arduino
+
 
 def sendDataToArduino(data):
     arduino.write((data + "\n").encode('utf-8'))

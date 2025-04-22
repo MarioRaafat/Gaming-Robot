@@ -24,7 +24,8 @@ toSend = ''.join(flattened_faces)
 print(toSend)
 # Red-Yellow-Blue-Green-White-Orange
 
-testdata = "RRRRRRRRRYYYYYYYYYBBBBBBBBBGGGGGGGGGWWWWWWWWWOOOOOOOOO"
+#testdata = "R"*9 +"Y"*9 +"B"*9 +"G"*9 +"W"*9 +"O"*9
+testdata = "RRWRRWRRWYYRYYRYYRBBBBBBBBBGGGGGGGGGOWWOWWOWWYOOYOOYOO" 
 while True:
        
     if arduino.in_waiting > 0:
@@ -42,7 +43,7 @@ while True:
         print("Received:", line)
 
 arduino.close()
-
+# R'R   R'R   R'R    R'R    R'R     R'R
 
 
 
