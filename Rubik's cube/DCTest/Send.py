@@ -2,7 +2,7 @@ import serial
 import time
 
 # Change 'COM3' to your Arduino's port (e.g., '/dev/ttyUSB0' for Linux)
-arduino = serial.Serial('COM4', 9600, timeout=1)
+arduino = serial.Serial('COM3', 9600, timeout=1)
 time.sleep(2)  # Wait for Arduino to initialize
 
 def send_command(command):

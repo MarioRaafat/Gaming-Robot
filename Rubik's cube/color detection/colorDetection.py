@@ -1,20 +1,20 @@
 import cv2
 import numpy as np
-import serial
-import time
+import kociemba
+from sender import sendDataToArduino, arduino
 
-#working
 h_avg = 0
 s_avg = 0
 v_avg = 0
+
 # Instructions for scanning each face of the Rubik's Cube
 face_instructions = [
-    "Show the face with YELLOW center",
-    "Show the face with BLUE center",
-    "Show the face with RED center",
-    "Show the face with GREEN center",
-    "Show the face with ORANGE center",
     "Show the face with WHITE center"
+    "Show the face with RED center",
+    "Show the face with BLUE center",
+    "Show the face with YELLOW center",
+    "Show the face with ORANGE center",
+    "Show the face with GREEN center",
 ]
 
 def get_color_from_hsv(h, s, v):
@@ -32,10 +32,6 @@ def get_color_from_hsv(h, s, v):
         return 'B'
     else:
         return 'B'  # Default for unclassified colors
-
-
-
-
 
 
 # Function to preprocess the frame (Gaussian blur and brightness normalization)
@@ -62,7 +58,7 @@ def drawCube(img, size, shape, start_point):
                  (start_point[0] + i * cell, start_point[1] + size), (0, 0, 0), 2)
 
 # Initialize camera
-videoFeed = cv2.VideoCapture(2)  # Replace with your camera source if different
+videoFeed = cv2.VideoCapture(0)  # Replace with your camera source if different
 face_index = 0  # Keep track of which face is being scanned
 faces = []  # List to store color sequences for all six faces
 
@@ -81,11 +77,7 @@ while True:
     hsv_frame[88:98, 138:148], hsv_frame[88:98, 198:208], hsv_frame[88:98, 258:268],
     hsv_frame[148:158, 138:148], hsv_frame[148:158, 198:208], hsv_frame[148:158, 258:268],
     hsv_frame[208:218, 138:148], hsv_frame[208:218, 198:208], hsv_frame[208:218, 258:268]
-    ]    
-
-
-
-
+    ]   
 
     # Detect colors for each region
     color_sequence = []
@@ -115,21 +107,20 @@ while True:
     key = cv2.waitKey(1) & 0xFF
     if key == ord('c'):  # Capture the current face when 'c' is pressed
         print(f"Processing: {face_instructions[face_index]}")
-        print(f"HSV - H: {h_avg}, S: {s_avg}, V: {v_avg}")
-        
         print("Detected Colors:", color_sequence)
         face_index = (face_index + 1) % 6  # Move to the next face
     elif key == ord('s'):  # Save or display all faces when 's' is pressed
         print("Final Cube Colors:", faces)
+        break
     elif key == ord('q'):  # Exit the program when 'q' is pressed
         break
     
-
 # Release video feed and close OpenCV windows
 videoFeed.release()
 cv2.destroyAllWindows()
 
 # start to solve and then send to arduino
+<<<<<<< HEAD:Rubik's cube/Color detection code/colorDetect.py
 
 
 def sendDataToArduino(data):
@@ -143,18 +134,41 @@ def sendDataToArduino(data):
 # Initialize serial communication
 arduino = serial.Serial(port='COM4', baudrate=9600, timeout=1)  
 time.sleep(5)  # Wait for Arduino to initialize
+=======
+>>>>>>> 8ab3b83e344df183bafb2257bc8c7b8fe2301437:Rubik's cube/color detection/colorDetection.py
 
 # Flatten the 2D array to a 1D array
 flattened_faces = [color for face in faces for color in face]
 
-# Concatenate all items in the 1D array into a single string
-toSend = ''.join(flattened_faces)
-print(toSend)
-testdata = "hello from   python"
+color_input = ""
+for color in flattened_faces:
+    color_input += color
 
-sendDataToArduino(toSend)
+color_input = (color_input)
 
-# # print every
+print("\n--------\n")
+print(color_input)
+
+
+# Map colors to face codes based on center stickers
+def custom_map_colors_to_faces(color_string):
+    if len(color_string) != 54:
+        raise ValueError("Input must be 54 characters long.")
+    # Map colors to face codes
+    return color_string.replace("W", "U").replace("R", "R").replace("G", "C").replace("Y", "D").replace("O", "L").replace("B", "F").replace("C", "B")
+
+
+stringToSolve = custom_map_colors_to_faces(color_input)
+print("Scrambled cube string:", stringToSolve)
+if (stringToSolve=="UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB"):
+    print("The cube is already solved.")
+else:
+    solution = kociemba.solve(stringToSolve)
+    print("Solution:", solution)
+
+
+sendDataToArduino(solution)
+
 while True:
        
     if arduino.in_waiting > 0:
@@ -162,11 +176,3 @@ while True:
         print("Received:", line)
 
 arduino.close()
-
-
-
-
-
-
-
-
