@@ -5,11 +5,14 @@ void setup() {
   // pwm.begin();
   // pwm.setPWMFreq(60);
   
-  //intializes servo positions
+  //intialize servo positions
   servos_init();
+
+  //initialize dc motors
+  init_dc_motors();
  
-//  get_solution_string();
-const String solution_String= "LL'";
+  // get_solution_string();
+  const String solution_String= "LL'";
   //
   
   analyze_moves(solution_String);
