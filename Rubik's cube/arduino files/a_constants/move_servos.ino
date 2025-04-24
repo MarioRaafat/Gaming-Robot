@@ -18,10 +18,10 @@ int servo3State = 90; // Right
 int servo4State = 90; // Back
 
 void attach_servos(){
-  servo1.attach(servo1Pin);
-  servo2.attach(servo2Pin);
-  servo3.attach(servo3Pin);
-  servo4.attach(servo4Pin);
+  servo1.attach(servo1Pin,350,2500);
+  servo2.attach(servo2Pin,350,2500);
+  servo3.attach(servo3Pin,350,2500);
+  servo4.attach(servo4Pin,350,2500);
 }
 
 // setting them in vertical position as initial state
@@ -35,6 +35,7 @@ void reset_servos(){
 void servos_init(){
   attach_servos();
   reset_servos();
+  delay(1000);
 }
 
 void analyze_moves(String solution_string){
@@ -52,6 +53,7 @@ void analyze_moves(String solution_string){
     }
 
     execute_move(move, modifier);
+    delay(500);
   }
 }
 
@@ -85,10 +87,10 @@ void rotate_front(bool ccw) {
   if(ccw){
     // if servo1State is 0 --> dc back then go to 90 --> dc front then go to 0
     if(servo1State == 0){
-      move_dc_motor('B');
+      move_dc_motor('B',1);
       servo1State += 90;
       servo1.write(servo1State);
-      move_dc_motor('F'); 
+      move_dc_motor('F',1); 
     }
      Serial.println("Rotating Front Face CCW...");
      servo1State-=90;
@@ -97,10 +99,10 @@ void rotate_front(bool ccw) {
   else{
      // if servo1State is 180 --> dc back then go to 90 --> dc front then go to 180
     if(servo1State == 180){
-      move_dc_motor('B');
+      move_dc_motor('B',1);
       servo1State = 90;
       servo1.write(servo1State);
-      move_dc_motor('F');
+      move_dc_motor('F',1);
     }
   Serial.println("Rotating Front Face CW...");
   servo1.write(servo1State+90);
@@ -112,10 +114,10 @@ void rotate_back(bool ccw) {
   if(ccw){
     // if servo4State is 0 --> dc back then go to 90 --> dc front then go to 0
     if(servo4State == 0){
-      move_dc_motor('B');
+      move_dc_motor('B',4);
       servo4State += 90;
       servo4.write(servo4State);
-      move_dc_motor('F'); 
+      move_dc_motor('F',4); 
     }
      Serial.println("Rotating Back Face CCW...");
      servo4State-=90;
@@ -124,10 +126,10 @@ void rotate_back(bool ccw) {
   else{
      // if servo4State is 180 --> dc back then go to 90 --> dc front then go to 180
     if(servo4State == 180){
-      move_dc_motor('B');
+      move_dc_motor('B',4);
       servo4State = 90;
       servo4.write(servo4State);
-      move_dc_motor('F');
+      move_dc_motor('F',4);
     }
   Serial.println("Rotating Back Face CW...");
   servo4.write(servo4State+90);
@@ -139,10 +141,13 @@ void rotate_left(bool ccw) {
   if(ccw){
   // if servo2State is 0 --> dc back then go to 90 --> dc front then go to 0
     if(servo2State == 0){
-      move_dc_motor('B');
+      move_dc_motor('B',2);
       servo2State += 90;
+      delay(1000);
       servo2.write(servo2State);
-      move_dc_motor('F'); 
+      delay(1000);
+      move_dc_motor('F',2); 
+      delay(1000);
     }
      Serial.println("Rotating Left Face CCW...");
      servo2State-=90;
@@ -151,27 +156,27 @@ void rotate_left(bool ccw) {
     else{
 // if servo2State is 180 --> dc back then go to 90 --> dc front then go to 180
      if(servo2State == 180){
-        move_dc_motor('B');
+        move_dc_motor('B',2);
         servo2State = 90;
         servo2.write(servo2State);
-        move_dc_motor('F');
+        move_dc_motor('F',2);
      }
     Serial.println("Rotating Left Face CW...");
     servo2.write(servo2State+90);
     servo2State+=90; 
     }
   }
-}
+
 
 void rotate_right(bool ccw) {
 
   if(ccw){
   // if servo3State is 0 --> dc back then go to 90 --> dc front then go to 0
     if(servo3State == 0){
-      move_dc_motor('B');
+      move_dc_motor('B',3);
       servo3State += 90;
       servo3.write(servo3State);
-      move_dc_motor('F'); 
+      move_dc_motor('F',3); 
     }
      Serial.println("Rotating Right Face CCW...");
      servo3State-=90;
@@ -179,27 +184,30 @@ void rotate_right(bool ccw) {
     }
     else{
 // if servo3State is 180 --> dc back then go to 90 --> dc front then go to 180
-     if(servo2State == 180){
-        move_dc_motor('B');
-        servo2State = 90;
+     if(servo3State == 180){
+        move_dc_motor('B',3);
+        servo3State = 90;
         servo3.write(servo3State);
-        move_dc_motor('F');
+        move_dc_motor('F',3);
      }
     Serial.println("Rotating Right Face CW...");
     servo3.write(servo3State+90);
     servo3State+=90; 
     }
-  }
 }
+
 
 void rotate_up() {
   Serial.println("Rotating Up (top)...");
 
-  servo1.write(90);
-  servo2.write(90);
-  delay(500);
-  servo1.write(0);
   servo2.write(0);
+  servo3.write(0);
+  delay(500);
+  servo4.write(90);
+  // servo 4 dc motor back then write 0
+  
+  servo2.write(0);
+  servo3.write(0);
   delay(500);
 }
 
