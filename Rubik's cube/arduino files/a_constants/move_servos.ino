@@ -18,10 +18,10 @@ int servo3State = 90; // Right
 int servo4State = 90; // Back
 
 void attach_servos(){
-  servo1.attach(servo1Pin,350,2500);
-  servo2.attach(servo2Pin,350,2500);
-  servo3.attach(servo3Pin,350,2500);
-  servo4.attach(servo4Pin,350,2500);
+  servo1.attach(servo1Pin,500,2500);
+  servo2.attach(servo2Pin,500,2500);
+  servo3.attach(servo3Pin,500,2500);
+  servo4.attach(servo4Pin,500,2500);
 }
 
 // setting them in vertical position as initial state
@@ -108,6 +108,13 @@ void rotate_front(bool ccw) {
   servo1.write(servo1State+90);
   servo1State+=90; 
    }
+       delay(700);
+    move_dc_motor('B',1);
+    delay(500);
+    servo1.write(90);
+    servo1State=90; 
+    delay(500);
+    move_dc_motor('F',1);
 }
 
 void rotate_back(bool ccw) {
@@ -135,6 +142,13 @@ void rotate_back(bool ccw) {
   servo4.write(servo4State+90);
   servo4State+=90; 
    }
+       delay(700);
+    move_dc_motor('B',4);
+    delay(500);
+    servo4.write(90);
+    servo4State=90; 
+    delay(500);
+    move_dc_motor('F',4);
 }
 
 void rotate_left(bool ccw) {
@@ -149,9 +163,10 @@ void rotate_left(bool ccw) {
       move_dc_motor('F',2); 
       delay(1000);
     }
-     Serial.println("Rotating Left Face CCW...");
      servo2State-=90;
-     servo2.write(servo2State);
+     Serial.println(servo2State);
+     Serial.println("Rotating Left Face CCW..." + servo2State);
+     servo2.write(0);
     }
     else{
 // if servo2State is 180 --> dc back then go to 90 --> dc front then go to 180
@@ -165,6 +180,13 @@ void rotate_left(bool ccw) {
     servo2.write(servo2State+90);
     servo2State+=90; 
     }
+    delay(700);
+    move_dc_motor('B',2);
+    delay(500);
+    servo2.write(90);
+    servo2State=90; 
+    delay(500);
+    move_dc_motor('F',2);
   }
 
 
@@ -194,6 +216,13 @@ void rotate_right(bool ccw) {
     servo3.write(servo3State+90);
     servo3State+=90; 
     }
+        delay(700);
+    move_dc_motor('B',3);
+    delay(500);
+    servo3.write(90);
+    servo3State=90; 
+    delay(500);
+    move_dc_motor('F',3);
 }
 
 

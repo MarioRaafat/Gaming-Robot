@@ -78,13 +78,13 @@ void move_dc_motor(char command, int motor_number) {
 void move_forward_dc_motor1(){
   digitalWrite(in1, HIGH);
   digitalWrite(in2, LOW);
-  delay(170);
+  delay(100);
   turn_off_dc_motors();
 }
 void move_backward_dc_motor1(){
   digitalWrite(in1, LOW);
   digitalWrite(in2, HIGH);
-  delay(170);
+  delay(90);
   turn_off_dc_motors();
 }
 
@@ -105,7 +105,7 @@ void move_forward_dc_motor2(){
 void move_forward_dc_motor3(){
   digitalWrite(in5, HIGH);
   digitalWrite(in6, LOW);
-  delay(170);
+  delay(200);
   turn_off_dc_motors();
 }
 void move_forward_dc_motor4(){
@@ -118,7 +118,7 @@ void move_forward_dc_motor4(){
 void move_backward_dc_motor3(){
   digitalWrite(in5, LOW);
   digitalWrite(in6, HIGH);
-  delay(170);
+  delay(200);
   turn_off_dc_motors();
 }
 
