@@ -68,8 +68,8 @@ void execute_move(char move, char modifier){
 
    for (int i = 0; i < times; i++) {
     switch (move) {
-      case 'U': rotate_up(); break;
-      case 'D': rotate_down(); break;
+      case 'U': rotate_up(ccw); break;
+      case 'D': rotate_down(ccw); break;
       case 'L': rotate_left(ccw); break;
       case 'R': rotate_right(ccw); break;
       case 'F': rotate_front(ccw); break;
@@ -226,27 +226,99 @@ void rotate_right(bool ccw) {
 }
 
 
-void rotate_up() {
-  Serial.println("Rotating Up (top)...");
+void rotate_up(bool ccw) {
+    
+    int del = 1000;
 
-  servo2.write(0);
-  servo3.write(0);
-  delay(500);
-  servo4.write(90);
-  // servo 4 dc motor back then write 0
+    // move the dc 1 & 2 back to make the cube free
+    move_dc_motor('B',1);
+    move_dc_motor('B',4);
+
+    delay(del);
+
+    // Rotate the face left and right at the same time to make the cube rotate completely
+    rotate_right(0);
+    rotate_left(1);
+
+    delay(del);
+
+    // return the back dc to the cube again
+    move_dc_motor('F',4);
+
+    delay(del);
+    // rotate the back servo as required in the UP face (cw / ccw)
+    rotate_back(ccw);
+
+    delay(del);
+
+    // move the back dc back again
+    move_dc_motor('B',4);
+
+    delay(del);
+
+    // Rotate the face left and right at the same time to make the cube rotate completely to return to the original position
+    rotate_right(1);
+    rotate_left(0);
+
+    delay(del);
+
+    //move the front and back dc front to return to the original position
+    move_dc_motor('F',1);
+    move_dc_motor('F',4);
+    
+    if(ccw){
+      Serial.println("Rotating UP Face CCW...");
+    }
+    else{
+      Serial.println("Rotating UP Face CW...");
+    }
+}
+
+void rotate_down(bool ccw) {
+
+    int del = 1000;
+
+    // move the dc 1 & 2 back to make the cube free
+    move_dc_motor('B',1);
+    move_dc_motor('B',4);
+
+    delay(del);
+
+    // Rotate the face left and right at the same time to make the cube rotate completely
+    rotate_right(1);
+    rotate_left(0);
+
+    delay(del);
+    // return the back dc to the cube again
+    move_dc_motor('F',4);
+
+    delay(del);
+    // rotate the back servo as required in the DOWN face (cw / ccw)
+    rotate_back(ccw);
+
+    delay(del);
+
+    // move the back dc back again
+    move_dc_motor('B',4);
+
+    delay(del);
+
+    // Rotate the face left and right at the same time to make the cube rotate completely to return to the original position
+    rotate_right(0);
+    rotate_left(1);
+
+    delay(del);
+
+    //move the front and back dc front to return to the original position
+    move_dc_motor('F',1);
+    move_dc_motor('F',4);
+    
+    if(ccw){
+      Serial.println("Rotating DOWN Face CCW...");
+    }
+    else{
+      Serial.println("Rotating DOWN Face CW...");
+    }
   
-  servo2.write(0);
-  servo3.write(0);
-  delay(500);
 }
 
-void rotate_down() {
-  Serial.println("Rotating Down (bottom)...");
-
-  servo3.write(90);
-  servo4.write(90);
-  delay(500);
-  servo3.write(0);
-  servo4.write(0);
-  delay(500);
-}
