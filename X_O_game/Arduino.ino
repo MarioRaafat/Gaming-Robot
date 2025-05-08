@@ -5,59 +5,126 @@ Servo babyAngleServo;
 Servo rotationalServo;
 
 
-// control the pump by using a motor driver L293D
-const int pump_IN1 = 8;
-const int pump_IN2 = 9;
-const int pump_ENA = 10;
-int nextCubepos = 0;
-int CubesPlaces[5][2] = {
-    {0, 0},
-    {0, 1}, 
-    {1, 0}, 
-    {1, 1},
-    {1, 1}
-};
-void GetNextCube() {
-    if (nextCubepos >= 5) return;
-    moveArm(CubesPlaces[nextCubepos][0],CubesPlaces[nextCubepos][1],0);
-    pumpOn();
-    nextCubepos++;
+int lastbabyAngle = 60; 
+int lastrotationalAngle = 0;
+int lastbigAngle = 0;
+
+
+
+
+
+void verticalMove(int to = 0) {
+    if (to > lastbabyAngle) 
+        for (int i = lastbabyAngle;i <= to;i++) {
+            babyAngleServo.write(i);
+            delay(50);
+        }
+    else 
+        for (int i = lastbabyAngle;i >= to;i--) { 
+            babyAngleServo.write(i);
+            delay(50);
+        }
+    lastbabyAngle = to;
 }
+  
+void RotatinalMove(int to = 0) {
+    if (to > lastrotationalAngle)
+        for (int i = lastrotationalAngle;i <= to;i++) {
+            rotationalServo.write(i);
+            delay(50);
+        }
+    else 
+        for (int i = lastrotationalAngle;i >= to;i--) {
+            rotationalServo.write(i);
+            delay(50);
+        }
+    lastrotationalAngle = to;
+}
+  
+void HorizontalMove(int to = 0) {
+    if (to > lastbigAngle) 
+        for (int i = lastbigAngle;i <= to;i++) {
+            bigAngleServo.write(i);
+            delay(100);
+        }
+    else 
+        for (int i = lastbigAngle;i >= to;i--) {
+            bigAngleServo.write(i);
+            delay(50);
+        }
+    lastbigAngle = to;
+} 
+  
+
+int nextCubepos = 0;
+int CubesPlaces[5][3] = {
+    {82, 40, 10},
+    {95, 45, 20}, 
+    {107, 50, 25}, 
+    {90, 20, 20},
+    {100, 30, 20}
+    // big - rotational - baby
+};
+
+void GetNextCube() {
+    verticalMove(80);
+    RotatinalMove(CubesPlaces[nextCubepos][1]);
+    HorizontalMove(CubesPlaces[nextCubepos][0]);
+    verticalMove(CubesPlaces[nextCubepos][2]); 
+    verticalMove(80);
+    nextCubepos++;
+    if (nextCubepos >= 5) nextCubepos = 0; 
+}
+
+// big        - rotational - baby
+// horizontal - rotational - vertical
+void PutInPosition(int p1,int p2,int p3) {
+    RotatinalMove(p2);
+    HorizontalMove(p1);
+    verticalMove(p3);  
+    HorizontalMove(p1 - 15);
+    verticalMove(80);
+}
+
+
+
+
+void moveInitalPlace() {
+    babyAngleServo.write(60);
+    delay(1000);
+    rotationalServo.write(0);
+    delay(1000);
+    bigAngleServo.write(0);
+    delay(1000);
+    lastbabyAngle = 60; 
+    lastrotationalAngle = 0;
+    lastbigAngle = 0;
+}
+
+
 
 void setup() {
     Serial.begin(9600);
     bigAngleServo.attach(3);
-    babyAngleServo.attach(5);
+    babyAngleServo.attach(9);
     rotationalServo.attach(6);
-
-    pinMode(pump_IN1, OUTPUT);
-    pinMode(pump_IN2, OUTPUT);
-    pinMode(pump_ENA, OUTPUT);
 }
 
+// big - rotational - baby
 void moveArm(int angle1, int angle2, int angle3) {
-    rotationalServo.write(angle3);
-    delay(1000);
-    bigAngleServo.write(angle1);
-    delay(1000);
-    babyAngleServo.write(angle2);
-    delay(1000);
-}
-
-void pumpOn() {
-    digitalWrite(pump_IN1, HIGH);
-    digitalWrite(pump_IN2, LOW);
-    digitalWrite(pump_ENA, HIGH);
-}
-
-void pumpOff() {
-    digitalWrite(pump_ENA, LOW);
+  bigAngleServo.write(angle1);
+  delay(1000);
+  rotationalServo.write(angle2);
+  delay(1000);
+  babyAngleServo.write(angle3);
+  delay(1000);
 }
 
 
 
 
 void loop() {
+    moveInitalPlace();
     while(!Serial.available());
   
     String command = Serial.readStringUntil('\n');  // Read command
@@ -65,48 +132,52 @@ void loop() {
 
     
     if (command == "top-left") {
-      GetNextCube();
-      moveArm(90, 90, 90);
-      pumpOff();
+        GetNextCube();
+        PutInPosition(107,77,35);
+        Serial.println("done");
     }
     else if (command == "top-center") {
-      GetNextCube();
-      moveArm(90, 90, 90);
-      pumpOff();
+        GetNextCube();
+        PutInPosition(105,105,35);
+        Serial.println("done");
     }
     else if (command == "top-right") {
-      GetNextCube();
-      moveArm(90, 90, 90);
-      pumpOff();
+        GetNextCube();
+        PutInPosition(105,125,35);
+        Serial.println("done");
     }
     else if (command == "middle-left") {
-      GetNextCube();
-      moveArm(90, 90, 90);
-      pumpOff();
+        GetNextCube();
+        PutInPosition(80,75,35);
+        Serial.println("done");
     }
     else if (command == "middle-center") {
-      GetNextCube();
-      moveArm(90, 90, 90);
-      pumpOff();
+        GetNextCube();
+        PutInPosition(75,100,35);
+        Serial.println("done");
     }
     else if (command == "middle-right") {
-      GetNextCube();
-      moveArm(90, 90, 90);
-      pumpOff();
+        GetNextCube();
+        PutInPosition(78,130,35);
+        Serial.println("done");
     }
     else if (command == "bottom-left") {
-      GetNextCube();
-      moveArm(90, 90, 90);
-      pumpOff();
+        GetNextCube();
+        PutInPosition(60,60,20);
+        Serial.println("done");
     }
     else if (command == "bottom-center") {
-      GetNextCube();
-      moveArm(90, 90, 90);
-      pumpOff();
+        GetNextCube();
+        PutInPosition(55,100,20);
+        Serial.println("done");
     }
     else if (command == "bottom-right") {
-      GetNextCube();
-      moveArm(90, 90, 90);
-      pumpOff();
+        GetNextCube();
+        PutInPosition(55,140,20);
+        Serial.println("done");
+    }
+    else if (command == "Reset") {
+        nextCubepos = 0;
+        Serial.println("done");
     }
 }
